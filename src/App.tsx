@@ -10,6 +10,13 @@ import ShareCard from './components/ShareCard';
 
 type InputMode = 'url' | 'file';
 
+/* 装飾用: ヒーロー背景を流れるニコニコ風コメント（表示のみ・解析には無関係） */
+const HERO_COMMENT_ROWS: string[][] = [
+  ['wwwwww', '草', '88888888', 'ここすき', 'うぽつです', 'GJ!'],
+  ['！？', '神回', 'たすかる', '職人さん!', '腹筋崩壊', '8888'],
+  ['かわいい', 'やばい', '最高かよ', 'わろた', 'ここすき', '草生える'],
+];
+
 export default function App() {
   const [appState, setAppState] = useState<AppState>('idle');
   const [inputMode, setInputMode] = useState<InputMode>('url');
@@ -70,6 +77,17 @@ export default function App() {
       {appState === 'idle' && (
         <>
           <section className="hero">
+            {/* 装飾: 背景を流れるニコニコ風コメント */}
+            <div className="hero__comments" aria-hidden="true">
+              {HERO_COMMENT_ROWS.map((row, ri) => (
+                <div key={ri} className={`hero__comment-row hero__comment-row--${ri + 1}`}>
+                  {[...row, ...row, ...row, ...row].map((text, i) => (
+                    <span key={i}>{text}</span>
+                  ))}
+                </div>
+              ))}
+            </div>
+
             <h1 className="hero__title">ニココメ診断メーカー</h1>
             <p className="hero__subtitle">
               ニコニコのコメント欄を、ちょっと真面目に、だいぶふざけて診断します。
